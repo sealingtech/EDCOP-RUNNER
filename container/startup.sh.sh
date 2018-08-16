@@ -16,17 +16,17 @@ set -o pipefail
 
 CHECKPOINT_PATH="${CHECKPOINT_PATH:-/tmp/startup-script.kubernetes.io}"
 CHECK_INTERVAL_SECONDS="30"
-EXEC=(nsenter -t 1 -m -u -i -n -p --)
+
 
 do_startup_script() {
  local err=0;
- "${EXEC[@]}" bash -c "${STARTUP_SCRIPT}" && err=0 || err=$?
+ bash -c "${STARTUP_SCRIPT}" && err=0 || err=$?
  if [[ ${err} != 0 ]]; then
   echo "!!! startup-script failed! exit code '${err}'" 1>&2
   return 1
  fi
 
- "${EXEC[@]}" touch "${CHECKPOINT_PATH}"
+ touch "${CHECKPOINT_PATH}"
  echo "!!! startup-script succeeded!" 1>&2
  return 0
 }
