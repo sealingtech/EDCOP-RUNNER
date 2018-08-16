@@ -23,7 +23,7 @@ do_startup_script() {
  "${EXEC[@]}" bash -c "${STARTUP_SCRIPT}" && err=0 || err=$?
  if [[ ${err} != 0 ]]; then
   echo "!!! startup-script failed! exit code '${err}'" 1>&2
-  return 0
+  return 1
  fi
 
  "${EXEC[@]}" touch "${CHECKPOINT_PATH}"
